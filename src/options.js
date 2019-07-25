@@ -1691,16 +1691,81 @@ define([
              * @visprop
              */
 
+            /** Controls the attribute chartstyle of a chart
+            *   @name chartStyle
+            *   @memberOf Chart.prototype
+            *
+            *   @type string
+            *   @default 'line'
+            */
             chartStyle: 'line',
+
+            /** Controls the attribute colors of a chart
+            *   @name colors
+            *   @memberOf Chart.prototype
+            *
+            *   @type array
+            *   @default ['#B02B2C', '#3F4C6B', '#C79810', '#D15600', '#FFFF88', '#C3D9FF', '#4096EE', '#008C00']
+            */
             colors: ['#B02B2C', '#3F4C6B', '#C79810', '#D15600', '#FFFF88', '#C3D9FF', '#4096EE', '#008C00'],
+
+            /** Controls the attribute highlightcolors of a chart
+            *   @name highlightcolors
+            *   @memberOf Chart.prototype
+            *
+            *   @type array
+            */
             highlightcolors: null,
+
+            /** Controls the attribute fillcolor of a chart
+            *   @name fillcolor
+            *   @memberOf Chart.prototype
+            *
+            *   @type
+            */
             fillcolor: null,
+
+            /** Controls the attribute highlightonsector of a chart
+            *   @name highlightonsector
+            *   @memberOf Chart.prototype
+            *
+            *   @type
+            */
             highlightonsector: false,
+
+            /** Controls the attribute highlightbysize of a chart
+            *   @name highlightbysize
+            *   @memberOf Chart.prototype
+            *
+            *   @type Booelan
+            *   @default false
+            */
             highlightbysize: false,
 
+            /** Controls the attribute fillOpacity of a chart
+            *   @name fillOpacity
+            *   @memberOf Chart.prototype
+            *
+            *   @type Nummber
+            *   @default 0.6
+            */
             fillOpacity: 0.6,
+
+            /** Controls the attribute withLines of a chart
+            *   @name withLines
+            *   @memberOf Chart.prototype
+            *
+            *   @type Booelan
+            *   @default false
+            */
             withLines:  false,
 
+            /**
+             * Attributes for chart label.
+             *
+             * @type Label
+             * @name Chart#label
+             */
             label: {
             }
             /**#@-*/

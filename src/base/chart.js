@@ -68,7 +68,19 @@ define([
     "use strict";
 
     /**
-     * Chart plotting
+     * The Chart class is a basic class for all kind of chart objects, e.g.
+     * bar, pie, etc. It is usually defined by a dataset and represented by
+     * basic elements like line, polygon or curve.
+     * @class Creates a new basic chart object. Do not use this constructor
+     * to create a chart. Use {@link JXG.Board#create} with type {@link Chart}
+     * instead.
+     * @constructor
+     * @augments JXG.GeometryElement
+     * @param {string|JXG.Board} board The board the new chart is drawn on.
+     * @param {Array} parents The data represented in the chart
+     * @param {Object} attributes An object containing visual properties
+     * like in {@link JXG.Options#chart} and
+     * {@link JXG.Options#elements}, and optional a name and an id.
      */
     JXG.Chart = function (board, parents, attributes) {
         this.constructor(board, attributes);
@@ -148,9 +160,22 @@ define([
 
         return this.elements;
     };
+    /**
+     * Inherits here from {@link JXG.GeometryElement}.
+     */
     JXG.Chart.prototype = new GeometryElement();
 
     JXG.extend(JXG.Chart.prototype, /** @lends JXG.Chart.prototype */ {
+
+        /** Creates a {@link JXG.Line} which works as chart.
+        *   @param {string|JXG.Board} board The board the new chart is drawn on.
+        *   @param {Array} x x-coordinates
+        *   @param {Array} y y-coordinates
+        *   @param {Object} attributes An object containing visual properties
+        *   like in {@link JXG.Options#chart},  {@link JXG.Options#curve}and
+        *   {@link JXG.Options#elements}, and optional a name and an id.<br>
+        *   fillcolor and highlightfillcolor are set to 'none'.
+        */
         drawLine: function (board, x, y, attributes) {
             // we don't want the line chart to be filled
             attributes.fillcolor = 'none';
@@ -159,6 +184,15 @@ define([
             return board.create('curve', [x, y], attributes);
         },
 
+        /** Creates a {@link JXG.Spline} which works as chart.
+        *   @param {string|JXG.Board} board The board the new chart is drawn on.
+        *   @param {Array} x x-coordinates
+        *   @param {Array} y y-coordinates
+        *   @param {Object} attributes An object containing visual properties
+        *   like in {@link JXG.Options#chart}, {@link JXG.Options#spline} and
+        *   {@link JXG.Options#elements}, and optional a name and an id.<br>
+        *   fillcolor and highlightfillcolor are set to 'none'.
+        */
         drawSpline: function (board, x, y, attributes) {
             // we don't want the spline chart to be filled
             attributes.fillColor = 'none';
@@ -167,6 +201,15 @@ define([
             return board.create('spline', [x, y], attributes);
         },
 
+        /** Creates a {@link JXG.Functiongraph} which works as chart.
+        *   @param {string|JXG.Board} board The board the new chart is drawn on.
+        *   @param {Array} x x-coordinates
+        *   @param {Array} y y-coordinates
+        *   @param {Object} attributes An object containing visual properties
+        *   like in {@link JXG.Options#chart}, {@link JXG.Options#functiongraph} and
+        *   {@link JXG.Options#elements}, and optional a name and an id.<br>
+        *   fillcolor and highlightfillcolor are set to 'none'.
+        */
         drawFit: function (board, x, y, attributes) {
             var deg = attributes.degree;
 
@@ -179,6 +222,14 @@ define([
             return board.create('functiongraph', [Numerics.regressionPolynomial(deg, x, y)], attributes);
         },
 
+        /** Creates multiple {@link JXG.Polygon} which work as chart.
+        *   @param {string|JXG.Board} board The board the new chart is drawn on.
+        *   @param {Array} x x-coordinates
+        *   @param {Array} y y-coordinates
+        *   @param {Object} attributes An object containing visual properties
+        *   like in {@link JXG.Options#chart}, {@link JXG.Options#polygon} and
+        *   {@link JXG.Options#elements}, and optional a name and an id.
+        */
         drawBar: function (board, x, y, attributes) {
             var i, strwidth, text, w, xp0, xp1, xp2, yp, colors,
                 pols = [],
@@ -289,6 +340,15 @@ define([
             return pols;
         },
 
+        /** Creates multiple {@link JXG.Point} which work as chart.
+        *   @param {string|JXG.Board} board The board the new chart is drawn on.
+        *   @param {Array} x x-coordinates
+        *   @param {Array} y y-coordinates
+        *   @param {Object} attributes An object containing visual properties
+        *   like in {@link JXG.Options#chart}, {@link JXG.Options#point} and
+        *   {@link JXG.Options#elements}, and optional a name and an id.<br>
+        *   fixed is set to true, name is set to ''.
+        */
         drawPoints: function (board, x, y, attributes) {
             var i,
                 points = [],
@@ -305,6 +365,13 @@ define([
             return points;
         },
 
+        /** Creates multiple {@link JXG.Sector} which work as chart.
+        *   @param {string|JXG.Board} board The board the new chart is drawn on.
+        *   @param {Array} y values
+        *   @param {Object} attributes An object containing visual properties
+        *   like in {@link JXG.Options#chart}, {@link JXG.Options#sector} and
+        *   {@link JXG.Options#elements}, and optional a name and an id.
+        */
         drawPie: function (board, y, attributes) {
             var i, center,
                 p = [],
@@ -438,6 +505,15 @@ define([
          * labelArray=[ row1, row2, row3 ]
          * paramArray=[ paramx, paramy, paramz ]
          * parents=[[x1, y1, z1], [x2, y2, z2], [x3, y3, z3]]
+         */
+         /** Creates a radar chart with multiple basic elements which work as chart.
+         *   @param {string|JXG.Board} board The board the new chart is drawn on.
+         *   @param {Array} parents should be like [[x1, y1, z1, ...], [x2, y2, z2, ...], [x3, y3, z3, ...]],
+         *   all arrayss with teh same length.
+         *   @param {Object} attributes An object containing visual properties
+         *   like in {@link JXG.Options#chart}, {@link JXG.Options#point} and
+         *   {@link JXG.Options#elements}, and optional a name and an id.<br>
+         *   paramarray must be set and the same length as parents.
          */
         drawRadar: function (board, parents, attributes) {
             var i, j, paramArray, numofparams, maxes, mins,
@@ -766,6 +842,107 @@ define([
         updateDataArray: function () {}
     });
 
+    /**
+     * @class This element is used to provide a constructor for a chart. Attributes.chartstyle sets the style(s)
+     * the style of the chart.
+     * @pseudo
+     * @description
+     * @name Chart
+     * @augments JXG.Chart
+     * @constructor
+     * @type JXG.Chart
+     * @throws {Exception} If no data is given in the parent array, an exception is thrown.
+     * @param {Array} y Data represented in the chart. May be given as [a, b, c, ...]
+     * or [[a, b, c, ...]]. X-Values will be auto-set to [0, 1, 2, ..](same length as y)
+     * @param {Arary_Array} x,y Parent element may be an array of two arrays. The length of the two
+     * arrays must be equal.
+     * @param {Array_Array_Array} l1,l2,l3 To create a radar chart, parent element may be an array of multiple arrays.
+     * Each array is a dataset, and all arrays are of the same length. Attributes.paramarray must be set with the same length, too.
+     * @param {string} table Parent element may be the id of an html table.
+     * @example
+     * const board = JXG.JSXGraph.initBoard('jxgbox', {
+     *     boundingbox: [-5, 5, 5, -5], axis:false
+     * });
+     * var y = [1,2,3,4,5];
+     * board.create("chart", y, {chartstyle:'pie', labels:['1', '2', '3', '4', '5'], label:{fontsize:18}});
+     *
+     * </pre><div id="JXGcfabe9f8-648a-4250-bb2c-81802169e784" class="jxgbox" style="width: 300px; height: 300px;"></div>
+     * <script type="text/javascript">
+     *     (function() {
+     *         var board = JXG.JSXGraph.initBoard('JXGcfabe9f8-648a-4250-bb2c-81802169e784',
+     *             {boundingbox: [-8, 8, 8,-8], axis: true, showcopyright: false, shownavigation: false});
+     *     var y = [1,2,3,4,5];
+     *     board.create("chart", y, {chartstyle:'pie', labels:['1', '2', '3', '4', '5'], label:{fontsize:18}});
+     *
+     *     })();
+     *
+     * </script><pre>
+     *  @example
+     * const board = JXG.JSXGraph.initBoard('jxgbox', {
+     *     boundingbox: [-8, 8, 8, -8], axis:true
+     * });
+     *
+     * var x = [-6, -4, -3, -2, 0, 2, 5, 6]
+     * var y = [-3,2,-1,3,-4, 3,5, -6];
+     * // 2 chartstyles
+     * board.create("chart", [x,y], {chartstyle:'line,point'});
+     *
+     * </pre><div id="JXG55840112-6711-4edf-855e-35a081d61b90" class="jxgbox" style="width: 300px; height: 300px;"></div>
+     * <script type="text/javascript">
+     *     (function() {
+     *         var board = JXG.JSXGraph.initBoard('JXG55840112-6711-4edf-855e-35a081d61b90',
+     *             {boundingbox: [-8, 8, 8,-8], axis: true, showcopyright: false, shownavigation: false});
+     *     var x = [-6, -4, -3, -2, 0, 2, 5, 6]
+     *     var y = [-3,2,-1,3,-4, 3,5, -6];
+     *     board.create("chart", [x,y], {chartstyle:'line,point'});
+     *
+     *     })();
+     *
+     * </script><pre>
+     * @example
+     * const board = JXG.JSXGraph.initBoard('jxgbox', {
+     *     boundingbox: [-8, 8, 8, -8], axis:true
+     * });
+     *
+     * var y = [-3,2,-1,3,-4, 3,5];
+     * board.create("chart", [y], {chartstyle:'bar'});
+     *
+     * </pre><div id="JXG22e70ecc-f49f-4bc1-ae35-a0d7c806dcdd" class="jxgbox" style="width: 300px; height: 300px;"></div>
+     * <script type="text/javascript">
+     *     (function() {
+     *         var board = JXG.JSXGraph.initBoard('JXG22e70ecc-f49f-4bc1-ae35-a0d7c806dcdd',
+     *             {boundingbox: [-8, 8, 8,-8], axis: true, showcopyright: false, shownavigation: false});
+     *
+     *     var y = [-3,2,-1,3,-4, 3,5];
+     *     board.create("chart", [y], {chartstyle:'bar'});
+     *
+     *     })();
+     *
+     * </script><pre>
+     *
+     * @example
+     * const board = JXG.JSXGraph.initBoard('jxgbox', {
+     *     boundingbox: [-8, 8, 8, -8], axis:true
+     * });
+     *
+     * var y = [-3,2,-1,2,-2, 3,5];
+     * board.create("chart", [y], {chartstyle:'point,fit', degree:5});
+     *
+     * </pre><div id="JXGd91fcca2-74a9-459b-9638-08e647f25517" class="jxgbox" style="width: 300px; height: 300px;"></div>
+     * <script type="text/javascript">
+     *     (function() {
+     *         var board = JXG.JSXGraph.initBoard('JXGd91fcca2-74a9-459b-9638-08e647f25517',
+     *             {boundingbox: [-8, 8, 8,-8], axis: true, showcopyright: false, shownavigation: false});
+     *
+     *     var y = [-3,2,-1,2,-2, 3,5];
+     *     board.create("chart", [y], {chartstyle:'point,fit', degree:5});
+     *
+     *     })();
+     *
+     * </script><pre>
+     *
+
+     */
     JXG.createChart = function (board, parents, attributes) {
         var data, row, i, j, col,
             charts = [],
